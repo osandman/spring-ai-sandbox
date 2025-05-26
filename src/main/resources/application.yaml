@@ -19,6 +19,16 @@ spring:
         options:
           model: GigaChat
 
+server:
+  port: 8088
+  servlet:
+    context-path: /api
+    encoding:
+      force: true
+  error:
+    include-message: always
+    include-binding-errors: always
+
 logging:
   level:
     org.springframework.ai.chat.client.advisor: DEBUG
