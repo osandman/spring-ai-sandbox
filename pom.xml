@@ -41,6 +41,11 @@
             <version>1.0.0</version>
         </dependency>
         <dependency>
+            <groupId>chat.giga</groupId>
+            <artifactId>gigachat-java</artifactId>
+            <version>0.1.7</version>
+        </dependency>
+        <dependency>
             <groupId>org.projectlombok</groupId>
             <artifactId>lombok</artifactId>
             <optional>true</optional>
