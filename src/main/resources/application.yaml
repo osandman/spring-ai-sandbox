@@ -1,0 +1,23 @@
+spring:
+  application:
+    name: ai-sandbox
+  servlet:
+    multipart:
+      max-file-size: -1
+      max-request-size: -1
+  ai:
+    retry:
+      max-attempts: 3
+    gigachat:
+      scope: ${GIGACHAT_API_SCOPE}
+      client-id: ${GIGACHAT_API_CLIENT_ID}
+      client-secret: ${GIGACHAT_API_CLIENT_SECRET}
+      unsafe-ssl: true
+      chat:
+        options:
+          model: GigaChat-2
+
+logging:
+  level:
+    org.springframework.ai.chat.client.advisor: DEBUG
+    chat.giga.springai.api.chat: DEBUG
