@@ -1,0 +1,1 @@
+Trying to test and experiment with the Spring AI framework
