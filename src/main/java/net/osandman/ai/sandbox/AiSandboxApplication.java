@@ -6,8 +6,8 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 @SpringBootApplication
 public class AiSandboxApplication {
 
-	public static void main(String[] args) {
-		SpringApplication.run(AiSandboxApplication.class, args);
-	}
+    public static void main(String[] args) {
+        SpringApplication.run(AiSandboxApplication.class, args);
+    }
 
 }
