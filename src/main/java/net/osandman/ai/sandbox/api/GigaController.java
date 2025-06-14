@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping(value = "/system", produces = MediaType.APPLICATION_JSON_VALUE)
-public class SystemController {
+@RequestMapping(value = "/giga", produces = MediaType.APPLICATION_JSON_VALUE)
+public class GigaController {
 
     private final GigaChatClient gigaChatClient;
 
-    public SystemController(GigaChatClient gigaChatClient) {
+    public GigaController(GigaChatClient gigaChatClient) {
         this.gigaChatClient = gigaChatClient;
     }
 

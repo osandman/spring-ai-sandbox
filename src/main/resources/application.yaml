@@ -18,6 +18,13 @@ spring:
       chat:
         options:
           model: GigaChat
+    ollama:
+      chat:
+        model: gemma3:4b
+        options:
+          temperature: 0.5 # default 0.8
+          num-predict: 128 # default 128
+          top-k: 20 # default 40
 
 server:
   port: 8088
