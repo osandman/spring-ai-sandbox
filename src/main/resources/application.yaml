@@ -36,7 +36,11 @@ server:
     include-message: always
     include-binding-errors: always
 
+simple-vector-store:
+  path: data/simple-vector-store.json
+
 logging:
   level:
     org.springframework.ai.chat.client.advisor: DEBUG
     chat.giga.springai.api.chat: DEBUG
+    chat.giga.springai.GigaChatEmbeddingModel: DEBUG
