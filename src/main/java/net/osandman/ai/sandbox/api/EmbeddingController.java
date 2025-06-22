@@ -1,7 +1,14 @@
 package net.osandman.ai.sandbox.api;
 
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
+import net.osandman.ai.sandbox.config.Templates;
 import net.osandman.ai.sandbox.config.VectorStoreConfig;
+import org.springframework.ai.chat.client.ChatClient;
+import org.springframework.ai.chat.client.advisor.vectorstore.QuestionAnswerAdvisor;
+import org.springframework.ai.chat.prompt.PromptTemplate;
 import org.springframework.ai.document.Document;
+import org.springframework.ai.embedding.EmbeddingModel;
 import org.springframework.ai.vectorstore.SearchRequest;
 import org.springframework.ai.vectorstore.SimpleVectorStore;
 import org.springframework.ai.vectorstore.VectorStore;
@@ -19,19 +26,18 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/embeddings")
+@RequiredArgsConstructor
+@Slf4j
 public class EmbeddingController {
 
     private final VectorStore vectorStore;
     private final VectorStoreConfig vectorStoreConfig;
-
-
-    public EmbeddingController(VectorStore vectorStore, VectorStoreConfig vectorStoreConfig) {
-        this.vectorStore = vectorStore;
-        this.vectorStoreConfig = vectorStoreConfig;
-    }
+    private final ChatClient chatClient;
+    private final EmbeddingModel embeddingModel;
 
     @PostMapping("/add")
     public ResponseEntity<?> add(@RequestBody List<String> inputTexts) {
+        log.info("Embedding model dimension = {}", embeddingModel.dimensions());
         List<Document> documents = new ArrayList<>();
         inputTexts.forEach(text -> documents.add(new Document(text)));
         vectorStore.add(documents);
@@ -39,7 +45,22 @@ public class EmbeddingController {
             File file = vectorStoreConfig.getSimpleVectorStoreFile();
             simpleVectorStore.save(file);
         }
-        return ResponseEntity.ok("Successfully added embeddings, count: " + documents.size());
+        String msg = "Successfully added embeddings, count: " + documents.size();
+        log.info(msg);
+        return ResponseEntity.ok(msg);
+    }
+
+    @PostMapping("/query")
+    public String add(@RequestBody String query, @RequestParam Double threshold) {
+        return chatClient.prompt(query)
+            .advisors(
+                QuestionAnswerAdvisor.builder(vectorStore)
+                    .promptTemplate(PromptTemplate.builder().template(Templates.CONTEXT_TEMPLATE).build())
+                    .searchRequest(SearchRequest.builder().similarityThreshold(threshold).build())
+                    .build()
+            )
+            .call()
+            .content();
     }
 
     @GetMapping("/search")
