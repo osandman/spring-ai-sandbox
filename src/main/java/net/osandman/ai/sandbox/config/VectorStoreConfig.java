@@ -9,15 +9,17 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.autoconfigure.condition.ConditionalOnMissingBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.core.io.Resource;
 
 import java.io.File;
+import java.io.IOException;
 
 @Configuration
 @Slf4j
 public class VectorStoreConfig {
 
-    @Value("${simple-vector-store.path}")
-    private String vectorStorePath;
+    @Value("${resources-location.simple-vector-store}")
+    private Resource simpleVectorStoreLocation;
 
     @Bean
     @ConditionalOnMissingBean(PgVectorStore.class)
@@ -32,6 +34,10 @@ public class VectorStoreConfig {
     }
 
     public File getSimpleVectorStoreFile() {
-        return new File("src/main/resources", vectorStorePath);
+        try {
+            return simpleVectorStoreLocation.getFile();
+        } catch (IOException e) {
+            throw new RuntimeException(e);
+        }
     }
 }

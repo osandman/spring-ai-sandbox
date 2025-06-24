@@ -51,8 +51,9 @@ server:
     include-message: always
     include-binding-errors: always
 
-simple-vector-store:
-  path: data/simple-vector-store.json
+resources-location:
+  simple-vector-store: classpath:/data/simple-vector-store.json
+  documents: classpath:/documents/*.*
 
 logging:
   level:
